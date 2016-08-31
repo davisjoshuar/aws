@@ -1,13 +1,13 @@
 #!/bin/bash
 
-INSTANCEINFO=( davisjor1.test.org:10.5.4.192:subnet-5ac8e71c:t2.nano:devops_role_1 \
-	       davisjor2.test.org:10.5.4.193:subnet-5ac8e71c:t2.nano:devops_role_1 \
-	       davisjor3.test.org:10.5.4.194:subnet-5ac8e71c:t2.nano:devops_role_1 \
-	       davisjor4.test.org:10.5.4.195:subnet-5ac8e71c:t2.nano:devops_role_1 )
+INSTANCEINFO=( davisjor1.test.org:10.5.4.192:subnet-xxxxxxxx:t2.nano:devops_role_1 \
+	       davisjor2.test.org:10.5.4.193:subnet-xxxxxxxx:t2.nano:devops_role_1 \
+	       davisjor3.test.org:10.5.4.194:subnet-xxxxxxxx:t2.nano:devops_role_1 \
+	       davisjor4.test.org:10.5.4.195:subnet-xxxxxxxx:t2.nano:devops_role_1 )
 
 AMIID=ami-6869aa05
 KEYNAME=davisj_key
-SECURITYGROUPS="sg-241cfc5f sg-1daa6378"
+SECURITYGROUPS="sg-xxxxxxxx sg-xxxxxxxx"
 
 for instance in ${INSTANCEINFO[@]};do
 
