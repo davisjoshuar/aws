@@ -24,7 +24,7 @@ for instance in ${INSTANCEINFO[@]};do
 	echo ""
 	echo $SECURITYGROUPS
 
-	aws ec2 run-instances --image-id ${AMIID} --count 1 --instance-type ${INSTANCETYPE} --key-name ${KEYNAME} --security-group-ids ${SECURITYGROUPS} --subnet-id ${SUBNET} --private-ip-address ${IPADDRESS} --iam-instance-profile Name=${INSTANCEROLE}
+	aws ec2 run-instances --image-id ${AMIID} --count 1 --instance-type ${INSTANCETYPE} --key-name ${KEYNAME} --security-group-ids ${SECURITYGROUPS} --subnet-id ${SUBNET} --private-ip-address ${IPADDRESS} --iam-instance-profile Name=${INSTANCEROLE} --user-data "aws s3 cp s3://s3.amazonaws.com/bucket/script.sh /root/script.sh; chmod +x /root/script.sh"
 
 	INSTANCEID=`aws ec2 describe-instances --filter "Name=private-ip-address,Values=${IPADDRESS}" --query 'Reservations[*].Instances[*].InstanceId' --output text`
 
