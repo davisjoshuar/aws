@@ -1,0 +1,38 @@
+#!/bin/bash
+
+INSTANCEINFO=( davisjor1.test.org:10.5.4.192:subnet-5ac8e71c:t2.nano:devops_role_1 \
+	       davisjor2.test.org:10.5.4.193:subnet-5ac8e71c:t2.nano:devops_role_1 \
+	       davisjor3.test.org:10.5.4.194:subnet-5ac8e71c:t2.nano:devops_role_1 \
+	       davisjor4.test.org:10.5.4.195:subnet-5ac8e71c:t2.nano:devops_role_1 )
+
+AMIID=ami-6869aa05
+KEYNAME=davisj_key
+SECURITYGROUPS="sg-241cfc5f sg-1daa6378"
+
+for instance in ${INSTANCEINFO[@]};do
+
+	HOSTNAME=`echo ${instance} | awk -F: '{print $1}'`
+	IPADDRESS=`echo ${instance} | awk -F: '{print $2}'`
+	SUBNET=`echo ${instance} | awk -F: '{print $3}'`
+	INSTANCETYPE=`echo ${instance} | awk -F: '{print $4}'`
+	INSTANCEROLE=`echo ${instance} | awk -F: '{print $5}'`
+
+        echo ""
+	echo -n "### ${HOSTNAME} starting ..."
+
+	echo ""
+	echo ""
+	echo $SECURITYGROUPS
+
+	aws ec2 run-instances --image-id ${AMIID} --count 1 --instance-type ${INSTANCETYPE} --key-name ${KEYNAME} --security-group-ids ${SECURITYGROUPS} --subnet-id ${SUBNET} --private-ip-address ${IPADDRESS} --iam-instance-profile Name=${INSTANCEROLE}
+
+	INSTANCEID=`aws ec2 describe-instances --filter "Name=private-ip-address,Values=${IPADDRESS}" --query 'Reservations[*].Instances[*].InstanceId' --output text`
+
+	aws ec2 create-tags --resources ${INSTANCEID} --tags Key=Name,Value=${HOSTNAME}
+
+        echo ""
+	echo -n "... ${NAME} completed ###"
+        echo ""
+done
+
+exit 0
